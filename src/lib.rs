@@ -26,9 +26,13 @@ fn build_parse_options(options: Option<ParseOptions>) -> markdown::ParseOptions 
 ///
 /// Returns the root node of the tree (typed as `mdast.Root`).
 #[napi(ts_return_type = "import('mdast').Root")]
-pub fn to_mdast(source: String, options: Option<ParseOptions>) -> Result<serde_json::Value> {
+pub fn to_mdast<'env>(
+    env: &'env Env,
+    source: String,
+    options: Option<ParseOptions>,
+) -> Result<Unknown<'env>> {
     let parse_options = build_parse_options(options);
     let node = markdown::to_mdast(&source, &parse_options)
         .map_err(|e| Error::new(Status::GenericFailure, e.to_string()))?;
-    serde_json::to_value(&node).map_err(|e| Error::new(Status::GenericFailure, e.to_string()))
+    env.to_js_value(&node)
 }

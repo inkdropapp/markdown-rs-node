@@ -2,7 +2,7 @@
 
 Node.js bindings for [`markdown-rs`](https://github.com/wooorm/markdown-rs) — a CommonMark-compliant markdown parser written in Rust, with GFM and MDX extensions.
 
-Returns an [MDAST](https://github.com/syntax-tree/mdast) tree compatible with the unified / remark / mdast ecosystem, ~1.3×–2.0× faster than `mdast-util-from-markdown` and with substantially lower allocation.
+Returns an [MDAST](https://github.com/syntax-tree/mdast) tree compatible with the unified / remark / mdast ecosystem, ~1.6×–2.6× faster than `mdast-util-from-markdown` and with roughly an order of magnitude less allocation.
 
 ## Install
 
@@ -105,14 +105,14 @@ Apple M3 Max, Node.js 25.9.0, release build, single thread.
 
 | Input            | Mode       | `toMdast` (Rust) | `fromMarkdown` (JS) | Speedup    |
 | ---------------- | ---------- | ---------------: | ------------------: | ---------- |
-| small (~0.5 KB)  | CommonMark |          119 µs  |             152 µs  | **1.28×**  |
-| small (~0.5 KB)  | GFM        |          122 µs  |             249 µs  | **2.04×**  |
-| medium (~6 KB)   | CommonMark |         1.70 ms  |            2.26 ms  | **1.33×**  |
-| medium (~6 KB)   | GFM        |         2.17 ms  |            4.26 ms  | **1.97×**  |
-| large (~60 KB)   | CommonMark |         19.3 ms  |            32.3 ms  | **1.68×**  |
-| large (~60 KB)   | GFM        |         26.7 ms  |            54.5 ms  | **2.04×**  |
+| small (~0.5 KB)  | CommonMark |         95.5 µs  |             156 µs  | **1.63×**  |
+| small (~0.5 KB)  | GFM        |         98.6 µs  |             248 µs  | **2.52×**  |
+| medium (~6 KB)   | CommonMark |         1.31 ms  |            2.30 ms  | **1.76×**  |
+| medium (~6 KB)   | GFM        |         1.75 ms  |            4.27 ms  | **2.43×**  |
+| large (~60 KB)   | CommonMark |         15.0 ms  |            31.9 ms  | **2.13×**  |
+| large (~60 KB)   | GFM        |         21.4 ms  |            55.0 ms  | **2.57×**  |
 
-Memory allocation per parse is dramatically lower on the Rust side — for example, the medium GFM case allocates ~352 KB vs ~11.2 MB.
+Memory allocation per parse is dramatically lower on the Rust side — for example, the medium GFM case allocates ~186 KB vs ~11.3 MB.
 
 The GFM gap is wider than the CommonMark gap because the JS implementation layers GFM on as a micromark/mdast plugin pair, while `markdown-rs` has it built in.
 

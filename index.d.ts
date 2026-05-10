@@ -7,9 +7,9 @@ export interface ParseOptions {
    * strikethrough, tables, tasklists). Mutually exclusive with `mdx`; if both
    * are set, `mdx` wins.
    */
-  gfm?: boolean;
+  gfm?: boolean
   /** Enable MDX (JSX, ESM, expressions). Mutually exclusive with `gfm`. */
-  mdx?: boolean;
+  mdx?: boolean
 }
 
 /**
@@ -17,7 +17,4 @@ export interface ParseOptions {
  *
  * Returns the root node of the tree (typed as `mdast.Root`).
  */
-export declare function toMdast(
-  source: string,
-  options?: ParseOptions | undefined | null,
-): import("mdast").Root;
+export declare function toMdast(source: string, options?: ParseOptions | undefined | null): import('mdast').Root

@@ -1,0 +1,34 @@
+{
+  "name": "@inkdropapp/markdown-rs-node",
+  "version": "1.0.0",
+  "description": "Node.js bindings for markdown-rs (wooorm/markdown-rs) via napi-rs.",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "type": "commonjs",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "*.node"
+  ],
+  "napi": {
+    "binaryName": "markdown-rs-node"
+  },
+  "scripts": {
+    "build": "napi build --platform --release",
+    "build:debug": "napi build --platform",
+    "test": "node --test '__test__/*.test.mjs'",
+    "bench": "node bench/bench.mjs"
+  },
+  "dependencies": {
+    "@types/mdast": "^4.0.4"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^3.6.2",
+    "mdast-util-from-markdown": "^2.0.3",
+    "mdast-util-gfm": "^3.1.0",
+    "micromark-extension-gfm": "^3.0.0",
+    "mitata": "^1.0.34",
+    "typescript": "^6.0.3"
+  },
+  "license": "MIT"
+}

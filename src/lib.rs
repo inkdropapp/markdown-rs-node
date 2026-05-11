@@ -22,17 +22,16 @@ fn build_parse_options(options: Option<ParseOptions>) -> markdown::ParseOptions 
     }
 }
 
-/// Parse a markdown string into an MDAST tree.
+/// Parse a markdown string and return the MDAST tree as a JSON string.
 ///
-/// Returns the root node of the tree (typed as `mdast.Root`).
-#[napi(ts_return_type = "import('mdast').Root")]
-pub fn to_mdast<'env>(
-    env: &'env Env,
-    source: String,
-    options: Option<ParseOptions>,
-) -> Result<Unknown<'env>> {
+/// The JS wrapper in `index.js` runs `JSON.parse` on the result and exposes
+/// it as `toMdast`. We serialize directly in Rust (rather than walking the
+/// tree to build JS objects via N-API) because V8's `JSON.parse` is faster
+/// than per-node N-API construction for tree-shaped data.
+#[napi]
+pub fn to_mdast_json(source: String, options: Option<ParseOptions>) -> Result<String> {
     let parse_options = build_parse_options(options);
     let node = markdown::to_mdast(&source, &parse_options)
         .map_err(|e| Error::new(Status::GenericFailure, e.to_string()))?;
-    env.to_js_value(&node)
+    serde_json::to_string(&node).map_err(|e| Error::new(Status::GenericFailure, e.to_string()))
 }
